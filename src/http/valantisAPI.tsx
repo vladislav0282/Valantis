@@ -7,13 +7,11 @@ let year = today.getFullYear();
 let month = String(today.getMonth() + 1).padStart(2, "0");
 let day = String(today.getDate()).padStart(2, "0");
 
-//let formattedDate = year + month + day;
-let formattedDate = "20240301";
-//console.log(formattedDate);
+let formattedDate = year + month + day;
+//let formattedDate = "20240301";
 
 let password = "Valantis";
 
-// Assuming the md5 function is available
 var hash = md5(password + "_" + formattedDate).toString();
 console.log(hash);
 
