@@ -13,5 +13,5 @@ const filterBrandSlice = createSlice({
 });
 
 export const { changeSearchBrandFilter } = filterBrandSlice.actions;
-export const getSearchBrandSelector = (state) => state.filterBrand.search;
+export const getSearchBrandSelector = (state: any) => state.filterBrand.search;
 export const filterBrandReducer = filterBrandSlice.reducer;

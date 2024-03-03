@@ -4,12 +4,25 @@ import { gitInitState } from "./initState";
 import { filterReducer } from "./slices/filterSlice";
 import { filterBrandReducer } from "./slices/filterBrandSlice";
 import { filterPriceReducer } from "./slices/filterPriceSlice";
+import { Reducer } from "redux";
 
-export const store = configureStore({
+interface RootState {
+  filter: {
+    search: string;
+  };
+  filterBrand: {
+    search: string;
+  };
+  filterPrice: {
+    search: number;
+  };
+}
+
+export const store = configureStore<RootState, any>({
   reducer: {
-    filter: filterReducer,
-    filterBrand: filterBrandReducer,
-    filterPrice: filterPriceReducer,
+    filter: filterReducer as Reducer<RootState["filter"]>,
+    filterBrand: filterBrandReducer as Reducer<RootState["filterBrand"]>,
+    filterPrice: filterPriceReducer as Reducer<RootState["filterPrice"]>,
   },
   preloadedState: gitInitState(),
 });

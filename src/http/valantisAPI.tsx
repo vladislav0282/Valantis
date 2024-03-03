@@ -1,6 +1,7 @@
 import md5 from "md5";
 import axios from "axios";
 import { json } from "stream/consumers";
+import { IProducts, IResult } from "../models/products";
 
 let today = new Date();
 let year = today.getFullYear();
@@ -59,7 +60,7 @@ export const fetchAllProductsValantis = async (formDataAll: object) => {
     error: null,
   };
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.post<IResult>(
       "http://api.valantis.store:40000/",
       formDataAll,
       {
@@ -83,7 +84,7 @@ export const fetchProductById = async (formDataById: object) => {
     error: null,
   };
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.post<IProducts[]>(
       "http://api.valantis.store:40000/",
       formDataById,
       {
@@ -100,32 +101,13 @@ export const fetchProductById = async (formDataById: object) => {
   return res;
 };
 
-export const fetchProductFieldById = async () => {
-  const res: any = {
-    data: null,
-    error: null,
-  };
-  try {
-    const { data } = await axios.post("http://api.valantis.store:40000/", {
-      headers: {
-        "X-Auth": hash,
-        "Content-Type": "application/json",
-      },
-    });
-    res.data = data;
-  } catch (error: any) {
-    res.error = error;
-  }
-  return res;
-};
-
 export const fetchFilter = async (form: object) => {
   const res: any = {
     data: null,
     error: null,
   };
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.post<IResult>(
       "http://api.valantis.store:40000/",
       form,
       {
@@ -141,6 +123,25 @@ export const fetchFilter = async (form: object) => {
   }
   return res;
 };
+
+// export const fetchProductFieldById = async () => {
+//   const res: any = {
+//     data: null,
+//     error: null,
+//   };
+//   try {
+//     const { data } = await axios.post("http://api.valantis.store:40000/", {
+//       headers: {
+//         "X-Auth": hash,
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     res.data = data;
+//   } catch (error: any) {
+//     res.error = error;
+//   }
+//   return res;
+// };
 
 // export const fetchProductFilterPrice = async (formPrice: object) => {
 //   const { data } = await axios.post(

@@ -13,5 +13,5 @@ const filterPriceSlice = createSlice({
 });
 
 export const { changeSearchPriceFilter } = filterPriceSlice.actions;
-export const getSearchPriceSelector = (state) => state.filterPrice.search;
+export const getSearchPriceSelector = (state: any) => state.filterPrice.search;
 export const filterPriceReducer = filterPriceSlice.reducer;

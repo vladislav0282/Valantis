@@ -35,15 +35,15 @@ function SearchProduct() {
 
   return (
     <div>
-      <h5 style={{ width: "300px", textAlign: "center" }}>
-        Поиск по названию продукта
+      <h5 style={{ width: "400px", textAlign: "center" }}>
+        Поиск по названию продукта (работает по вводу в поисковую строку)
       </h5>
       <input
         // className={searchPrice.inp}
         placeholder="Введите название товара..."
         type="text"
         className="form-control mb-1"
-        style={{ width: "300px" }}
+        style={{ width: "400px" }}
         value={search}
         onChange={searchHandler}
       />

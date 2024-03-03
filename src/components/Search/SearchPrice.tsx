@@ -35,7 +35,7 @@ function SearchPrice() {
   return (
     <div>
       <h5 style={{ width: "300px", textAlign: "center" }}>
-        Поиск по названию Цены
+        Поиск по значению Цены (работает по нажатию кнопки)
       </h5>
       <input
         placeholder="Введите значение цены..."

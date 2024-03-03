@@ -30,7 +30,7 @@ const SearchBrand = observer(() => {
   return (
     <div>
       <h5 style={{ width: "300px", textAlign: "center" }}>
-        Поиск по названию Бренда
+        Поиск по названию Бренда (работает по нажатию кнопки)
       </h5>
       <input
         placeholder="Введите значение бренда..."

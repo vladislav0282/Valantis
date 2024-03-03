@@ -18,8 +18,6 @@ import { getSearchPriceSelector } from "../redux/slices/filterPriceSlice";
 
 const ValantisPage = observer(() => {
   const [dataItem, setDataItem] = useState<any>(null);
-
-  const [dataSearch, setDataSearch] = useState<any>(null);
   const { device } = useContext(Context);
 
   useEffect(() => {
@@ -29,39 +27,65 @@ const ValantisPage = observer(() => {
       });
       if (response.error) {
         console.error(response.error);
+        return;
       }
       device.setTotalCount(response.data.result.length);
     };
     fetchData();
   }, []);
 
+  const search = useSelector(getSearchSelector);
+  const searchBrand = useSelector(getSearchBrandSelector);
+  const searchPrice = Number(useSelector(getSearchPriceSelector));
+
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchAllProductsValantis({
-        action: "get_ids",
-        params: { offset: device.offset, limit: device.limit },
-      });
-      if (response.error) {
-        console.error(response.error);
+      let params = {};
+      params = search
+        ? { product: search }
+        : searchBrand
+        ? { brand: searchBrand }
+        : { price: Number(searchPrice) };
+
+      let response = null;
+
+      if (search && search.length > 0) {
+        response = await fetchFilter({
+          action: "filter",
+          params: params,
+        });
+      } else if (searchBrand.length === 0 && searchPrice === 0) {
+        response = await fetchAllProductsValantis({
+          action: "get_ids",
+          params: { offset: device.offset, limit: device.limit },
+        });
+      } else {
+        response = await fetchAllProductsValantis({
+          action: "get_ids",
+          params: { offset: device.offset, limit: device.limit },
+        });
       }
 
+      if (response.error) {
+        console.error(response.error);
+        return;
+      }
       const responseItems = await fetchProductById({
         action: "get_items",
         params: { ids: response.data.result },
       });
       if (responseItems.error) {
         console.error(response.error);
+        return;
       }
       const uniqueArray = responseItems.data.result.reduce(
         (acc: any, item: any) => {
           const existingItem = acc.find(
             (accItem: any) => accItem.id === item.id
           );
-
           if (!existingItem) {
             acc.push(item);
           }
-
           return acc;
         },
         []
@@ -69,11 +93,7 @@ const ValantisPage = observer(() => {
       setDataItem(uniqueArray);
     };
     fetchData();
-  }, [device.offset, device.limit]);
-
-  const search = useSelector(getSearchSelector);
-  const searchBrand = useSelector(getSearchBrandSelector);
-  const searchPrice = Number(useSelector(getSearchPriceSelector));
+  }, [device, search, searchBrand, searchPrice, device.offset, device.limit]);
 
   const searchHandler = (
     search: any,
@@ -96,12 +116,18 @@ const ValantisPage = observer(() => {
 
       if (response.error) {
         console.error(response.error);
+        return;
       }
 
       const responseItems = await fetchProductById({
         action: "get_items",
         params: { ids: response.data.result },
       });
+
+      if (responseItems.error) {
+        console.error(responseItems.error);
+        return;
+      }
 
       const uniqueArray = responseItems.data.result.reduce(
         (acc: any, item: any) => {
@@ -118,7 +144,7 @@ const ValantisPage = observer(() => {
         []
       );
 
-      setDataSearch(uniqueArray);
+      setDataItem(uniqueArray);
     };
     fetchData();
   };
@@ -131,16 +157,9 @@ const ValantisPage = observer(() => {
     <Container>
       <h1>Товары</h1>
       <Pages />
-      <div className="d-flex flex-row gap-4">
+      <div className="d-flex flex-row gap-5">
         <div>
           <SearchProduct />
-          <Button
-            onClick={() =>
-              searchHandler(search, searchBrand, Number(searchPrice))
-            }
-          >
-            Найти
-          </Button>
         </div>
         <div>
           <SearchBrand />
@@ -164,28 +183,7 @@ const ValantisPage = observer(() => {
         </div>
       </div>
       <Row className="d-flex">
-        {dataSearch && dataSearch.length > 0
-          ? dataSearch.map((item: any) => (
-              <Col key={item.id} xl={3} lg={4} sm={6} className="mt-3">
-                <Card style={{ width: 200, cursor: "pointer" }}>
-                  <div>
-                    <p>
-                      <span>id: </span>
-                      {item.id}
-                    </p>
-                    <h6>{item.product}</h6>
-                    <p>
-                      <span>Цена:</span> {item.price.toFixed(1)} руб.
-                    </p>
-                    <p>
-                      <span>Brand:</span>{" "}
-                      {item.brand ? item.brand : "без бренда"}
-                    </p>
-                  </div>
-                </Card>
-              </Col>
-            ))
-          : dataItem && dataItem.length > 0
+        {dataItem && dataItem.length > 0
           ? dataItem.map((item: any) => (
               <Col key={item.id} xl={3} lg={4} sm={6} className="mt-3">
                 <Card style={{ width: 200, cursor: "pointer" }}>
