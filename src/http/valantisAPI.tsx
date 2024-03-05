@@ -14,7 +14,6 @@ let formattedDate = year + month + day;
 let password = "Valantis";
 
 var hash = md5(password + "_" + formattedDate).toString();
-console.log(hash);
 
 let ids = [];
 let offset: number = 0;

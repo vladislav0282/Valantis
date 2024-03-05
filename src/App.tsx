@@ -5,7 +5,7 @@ import AppRouter from "./components/AppRouter";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Valantis">
       <AppRouter />
     </BrowserRouter>
   );

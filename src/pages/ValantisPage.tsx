@@ -149,9 +149,9 @@ const ValantisPage = observer(() => {
     fetchData();
   };
 
-  if (dataItem === null) {
-    return <p>Loading...</p>;
-  }
+  // if (dataItem === null) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <Container>

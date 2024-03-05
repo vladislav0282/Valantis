@@ -14,6 +14,5 @@ export const initState = {
 
 export function gitInitState() {
   const dataFromLS = localStorage.getItem(REDUX_LS_KEY);
-  console.log(dataFromLS);
   return dataFromLS ? JSON.parse(dataFromLS) : initState;
 }
