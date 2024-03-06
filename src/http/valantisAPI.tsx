@@ -60,7 +60,7 @@ export const fetchAllProductsValantis = async (formDataAll: object) => {
   };
   try {
     const { data } = await axios.post<IResult>(
-      "http://api.valantis.store:40000/",
+      "https://api.valantis.store:41000/",
       formDataAll,
       {
         headers: {
@@ -84,7 +84,7 @@ export const fetchProductById = async (formDataById: object) => {
   };
   try {
     const { data } = await axios.post<IProducts[]>(
-      "http://api.valantis.store:40000/",
+      "https://api.valantis.store:41000/",
       formDataById,
       {
         headers: {
@@ -107,7 +107,7 @@ export const fetchFilter = async (form: object) => {
   };
   try {
     const { data } = await axios.post<IResult>(
-      "http://api.valantis.store:40000/",
+      "https://api.valantis.store:41000/",
       form,
       {
         headers: {
